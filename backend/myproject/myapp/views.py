@@ -8,6 +8,12 @@ from myapp.serializers import *
 def home(request):
     return HttpResponse("Hello AWS, World!")
 
+@api_view(['GET'])
+def get_images(request):
+    images = UploadedImage.objects.all()
+    serializer = UploadedImageSerializer(images, many=True)
+    return Response({'message': 'Images Fetched', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+
 @api_view(['POST'])
 def image_upload(request):
     serializer = UploadedImageSerializer(data=request.data)
